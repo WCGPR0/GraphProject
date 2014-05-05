@@ -14,8 +14,8 @@ Graph::~Graph(){
 
 void Graph::readFromFile(string file){
 	ifstream inFile;
-	inFile.open(file);
-	if(!(inFIle.is_open())){
+	inFile.open(file.c_str());
+	if(!(inFile.is_open())){
 		cout<<"fail to open the inputFile!"<<endl;
 		exit(0);
 	}
@@ -33,7 +33,7 @@ void Graph::readFromFile(string file){
 	}
 	getline(inFile,buff);
 	vertices = atoi(buff.c_str());
-	for(int i=0;i<n;i++){
+	for(int i=0;i<vertices;i++){
 		addVertex();
 	}
 	getline(inFile,buff);
@@ -77,7 +77,7 @@ void Graph::addEdge(int v1,int v2,double weight){
 	else{
 		Edge newEdge;
 		newEdge.vt = v2;
-		newEdge.weight = _weight;
+		newEdge.weight = weight;
 		edgeList[v1-1].push_back(newEdge);
 	}
 }
@@ -132,7 +132,7 @@ void Graph::DFT(int source,string file){
 				outFile<<t+1<<endl;
 				int current;
 				size_t stackSize;
-				list<Edge>::literator i;
+				list<Edge>::iterator i;
 				while(!process.empty()){
 					current = process.top();
 					i = edgeList[current].begin();
@@ -190,5 +190,3 @@ void Graph::BFT(int source,string file){
 		}	
 	}
 }
-
-

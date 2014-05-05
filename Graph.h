@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
+#include <stack>
 //This class will be used to create a graph library.
 enum Type {DIRECTED,UNDIRECTED};
 
