@@ -1,5 +1,5 @@
 COMPILER=g++
-FLAGS=-Wall -ggdb -std=c++0x
+FLAGS=-Wall -g -std=c++0x -gdwarf-2 
 EXECUTABLE=test
 
 all: Driver.o Graph.o
@@ -12,4 +12,4 @@ Graph.o: Graph.cpp
 	$(COMPILER) $(FLAGS) -c Graph.cpp
 
 clean:
-	rm -f *.o $(EXECUTABLE)
+	rm -rf *.o $(EXECUTABLE)

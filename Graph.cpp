@@ -314,10 +314,10 @@ int Graph::closeness(int v1, int v2){
 		process.push(v1-1);
 		while(!process.empty()){
 			current = process.front();
-		list<Edge>::iterator i=edgeList[current].begin();
+		list<Edge>::iterator myIterator=edgeList[current].begin();
 			first=0;	
-			while(i!=edgeList[current].end()){
-				if(i->vt==v2-1){
+			while(myIterator!=edgeList[current].end()){
+				if(myIterator->vt==v2-1){
 					resetVisit();
 					if(first==0){
 						return count;
@@ -326,15 +326,15 @@ int Graph::closeness(int v1, int v2){
 						return count-1;
 					}
 				}
-				if(!visited[i->vt]){
-					visited[i->vt].flip();
-					process.push(i->vt);
+				if(!visited[myIterator->vt]){
+					visited[myIterator->vt].flip();
+					process.push(myIterator->vt);
 					if(first==0){
 						count++;
 						first++;
 					}
 				}
-				++i;
+				++myIterator;
 			}	
 			process.pop();
 		}
