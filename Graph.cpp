@@ -310,13 +310,12 @@ int Graph::closeness(int v1, int v2){
 		queue<int> process;
 		int current;
 		int first;
-		list<Edge>::iterator i;
 		visited[v1-1].flip();
 		process.push(v1-1);
 		while(!process.empty()){
 			current = process.front();
-			i=edgeList[current].begin();
-			first=0;
+		list<Edge>::iterator i=edgeList[current].begin();
+			first=0;	
 			while(i!=edgeList[current].end()){
 				if(i->vt==v2-1){
 					resetVisit();
@@ -335,7 +334,7 @@ int Graph::closeness(int v1, int v2){
 						first++;
 					}
 				}
-				i++;
+				++i;
 			}	
 			process.pop();
 		}

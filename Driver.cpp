@@ -11,7 +11,6 @@ int main(int argc, char *argv[]) {
 	else {
 		//srand(); //Randomize seed
 
-		cout << "Please input a file" << endl;
 		Graph myGraph(UNDIRECTED); //Undirected by default, overide by readFile
 		
 		myGraph.readFromFile(argv[1]); //Error handling inside function

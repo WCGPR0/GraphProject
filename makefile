@@ -1,6 +1,6 @@
-COMPILER = g++
-FLAGS = -Wall -g -std=c++0x
-EXECUTABLE = test
+COMPILER=g++
+FLAGS=-Wall -ggdb -std=c++0x
+EXECUTABLE=test
 
 all: Driver.o Graph.o
 	$(COMPILER) $(FLAGS) -o $(EXECUTABLE) Driver.o Graph.o
