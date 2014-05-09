@@ -28,7 +28,7 @@ void Graph::readFromFile(string file){
 		type = UNDIRECTED;
 	}
 	else{
-		cout<<"invalide graph type!"<<endl;
+		cout<<"invalid graph type!"<<endl;
 		exit(0);
 	}
 	getline(inFile,buff);
@@ -243,7 +243,7 @@ void Graph::BFT(int source,string file){
 	resetVisit();
 }
 
-/*
+
 bool Graph::MST(string file){
 	ofstream outFile;
 	outFile.open(file);
@@ -254,13 +254,17 @@ bool Graph::MST(string file){
 	priority_queue<Edge> process;
 	vector<int> MSTnodes;
 	vector<Edge> MSTedges;
-	int components=1;
+	int components=0;
 	int next;
 	list<Edge>::iterator i;
 	if(!empty()){
 		for(int t=0;t<vertices;t++){
 			if(!visited[t]){
+                components++;
+                MSTnodes.clear();
+                MSTedges.clear();
 				visited[t].flip();
+                MSTnodes.push_back(t);
 				for(i=edgeList[t].begin();i!=edgeList[t].end();i++){
 					if(!visited[i->vt]){
 						process.push(*i);
@@ -277,24 +281,25 @@ bool Graph::MST(string file){
 						if(!visited[i->vt]){
 							process.push(*i);
 						}
+                        i++;
 					}
 				}
 				outFile<<"component "<<components<<": { {";
-				for(size_t j=0;j<MSTnodes.size();i++){
+				for(size_t j=0;j<MSTnodes.size();j++){
 					if(j!=MSTnodes.size()-1)
-						outFile<<MSTnodes[j]<<", ";
+						outFile<<MSTnodes[j]+1<<", ";
 					else{
-						outFile<<MSTnodes[j];
+						outFile<<MSTnodes[j]+1;
 					}
 				}
 				outFile<<" } { ";
 				for(size_t p=0;p<MSTedges.size();p++){
-					if(p!=MSTnodes.size()-1)
-						outFile<<"("<<MSTedges[p].vf<<","<<MSTedges[p].vt<<","<<MSTedges[p].weight<<"), ";
+					if(p!=MSTedges.size()-1)
+						outFile<<"("<<MSTedges[p].vf+1<<","<<MSTedges[p].vt+1<<","<<MSTedges[p].weight<<"), ";
 					else
-						outFile<<"("<<MSTedges[p].vf<<","<<MSTedges[p].vt<<","<<MSTedges[p].weight<<")";
+						outFile<<"("<<MSTedges[p].vf+1<<","<<MSTedges[p].vt+1<<","<<MSTedges[p].weight<<")";
 				}
-				outFile<<" } }"<<endl;
+				outFile<<"} }"<<endl;
 			}
 		}
 	}
@@ -303,21 +308,21 @@ bool Graph::MST(string file){
 	return true;
 }
 
-*/
 
 int Graph::closeness(int v1, int v2){
 		int count=1;
 		queue<int> process;
 		int current;
 		int first;
+		list<Edge>::iterator i;
 		visited[v1-1].flip();
 		process.push(v1-1);
 		while(!process.empty()){
 			current = process.front();
-		list<Edge>::iterator myIterator=edgeList[current].begin();
-			first=0;	
-			while(myIterator!=edgeList[current].end()){
-				if(myIterator->vt==v2-1){
+			i=edgeList[current].begin();
+			first=0;
+			while(i!=edgeList[current].end()){
+				if(i->vt==v2-1){
 					resetVisit();
 					if(first==0){
 						return count;
@@ -326,15 +331,15 @@ int Graph::closeness(int v1, int v2){
 						return count-1;
 					}
 				}
-				if(!visited[myIterator->vt]){
-					visited[myIterator->vt].flip();
-					process.push(myIterator->vt);
+				if(!visited[i->vt]){
+					visited[i->vt].flip();
+					process.push(i->vt);
 					if(first==0){
 						count++;
 						first++;
 					}
 				}
-				++myIterator;
+				i++;
 			}	
 			process.pop();
 		}
@@ -342,6 +347,10 @@ int Graph::closeness(int v1, int v2){
 		return -1;
 }
 
+
+//bool Graph::partitionable(){
+//    
+//}
 
 void Graph::stepAway(int source, int closeness,string file){
 	ofstream outFile;
@@ -390,11 +399,44 @@ void Graph::stepAway(int source, int closeness,string file){
 		}
 	}
 	outFile.close();
+    resetVisit();
 }
 
 void Graph::resetVisit(){
 	for(int i=0;i<vertices;i++){
 		visited[i]=false;
 	}
+}
+
+//Write a graph to a file
+void Graph::writeToFile(std::string file){	
+	ofstream outFile;
+	outFile.open(file);
+	if(!(outFile.is_open())){
+		cout<<"fail to open the output file!"<<endl;
+		exit(0);
+	}
+	outFile << (type ? "directed" : "undirected") << endl;
+	outFile << vertices << endl;
+	outFile << edges << endl;
+		
+	if (type) { //Directed	
+		for (int i = 0; i < vertices; i++) {
+		for (list<Edge>::iterator myList = edgeList[i].begin(); myList != edgeList[i].end(); ++myList)
+	outFile << myList->vf+1 << " " << myList->vt+1 << " " << myList->weight << endl;
+	}
+	}
+	else { //Undirected
+	for (int i = 0; i < vertices; i++) {
+	for (list<Edge>::iterator myList = edgeList[i].begin(); myList != edgeList[i].end(); ++myList) {
+	
+	// Check for visited
+		if (!visited[myList->vt]) outFile << myList->vf+1 << " " << myList->vt+1 << " " << myList->weight << endl;
+	}		
+	visited[i] = true;
+	}
+} 
+
+outFile.close();
 }
 

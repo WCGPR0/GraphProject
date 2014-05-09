@@ -17,13 +17,13 @@ class Graph{
 			int vf;
 			int vt;
 			double weight;
-			bool operator <(const Edge& rhs){
+			const bool operator <(const Edge& rhs)const{
          		return weight<rhs.weight;
       		}
 		};
 		//Put your private data members here
 		Type type;
-		std::vector<std::list<Edge>> edgeList;
+		std::vector<std::list<Edge> > edgeList;
 		std::vector<bool> visited;
 		int vertices;
 		int edges;

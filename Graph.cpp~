@@ -243,7 +243,7 @@ void Graph::BFT(int source,string file){
 	resetVisit();
 }
 
-/*
+
 bool Graph::MST(string file){
 	ofstream outFile;
 	outFile.open(file);
@@ -254,13 +254,17 @@ bool Graph::MST(string file){
 	priority_queue<Edge> process;
 	vector<int> MSTnodes;
 	vector<Edge> MSTedges;
-	int components=1;
+	int components=0;
 	int next;
 	list<Edge>::iterator i;
 	if(!empty()){
 		for(int t=0;t<vertices;t++){
 			if(!visited[t]){
+                components++;
+                MSTnodes.clear();
+                MSTedges.clear();
 				visited[t].flip();
+                MSTnodes.push_back(t);
 				for(i=edgeList[t].begin();i!=edgeList[t].end();i++){
 					if(!visited[i->vt]){
 						process.push(*i);
@@ -277,24 +281,25 @@ bool Graph::MST(string file){
 						if(!visited[i->vt]){
 							process.push(*i);
 						}
+                        i++;
 					}
 				}
 				outFile<<"component "<<components<<": { {";
-				for(size_t j=0;j<MSTnodes.size();i++){
+				for(size_t j=0;j<MSTnodes.size();j++){
 					if(j!=MSTnodes.size()-1)
-						outFile<<MSTnodes[j]<<", ";
+						outFile<<MSTnodes[j]+1<<", ";
 					else{
-						outFile<<MSTnodes[j];
+						outFile<<MSTnodes[j]+1;
 					}
 				}
 				outFile<<" } { ";
 				for(size_t p=0;p<MSTedges.size();p++){
-					if(p!=MSTnodes.size()-1)
-						outFile<<"("<<MSTedges[p].vf<<","<<MSTedges[p].vt<<","<<MSTedges[p].weight<<"), ";
+					if(p!=MSTedges.size()-1)
+						outFile<<"("<<MSTedges[p].vf+1<<","<<MSTedges[p].vt+1<<","<<MSTedges[p].weight<<"), ";
 					else
-						outFile<<"("<<MSTedges[p].vf<<","<<MSTedges[p].vt<<","<<MSTedges[p].weight<<")";
+						outFile<<"("<<MSTedges[p].vf+1<<","<<MSTedges[p].vt+1<<","<<MSTedges[p].weight<<")";
 				}
-				outFile<<" } }"<<endl;
+				outFile<<"} }"<<endl;
 			}
 		}
 	}
@@ -303,7 +308,6 @@ bool Graph::MST(string file){
 	return true;
 }
 
-*/
 
 int Graph::closeness(int v1, int v2){
 		int count=1;
@@ -343,6 +347,10 @@ int Graph::closeness(int v1, int v2){
 		return -1;
 }
 
+
+bool Graph::partitionable(){
+    
+}
 
 void Graph::stepAway(int source, int closeness,string file){
 	ofstream outFile;
@@ -391,6 +399,7 @@ void Graph::stepAway(int source, int closeness,string file){
 		}
 	}
 	outFile.close();
+    resetVisit();
 }
 
 void Graph::resetVisit(){
