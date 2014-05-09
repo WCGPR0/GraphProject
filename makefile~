@@ -2,8 +2,8 @@ COMPILER = g++
 FLAGS = -Wall -g -std=c++0x
 EXECUTABLE = test
 
-all: Driver.o Graph.o
-	$(COMPILER) $(FLAGS) -o $(EXECUTABLE) Driver.o Graph.o
+all: Graph.o Driver.o
+	$(COMPILER) $(FLAGS) -o $(EXECUTABLE) Graph.o Driver.o
 
 Driver.o: Driver.cpp
 	$(COMPILER) $(FLAGS) -c Driver.cpp

@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 
 		//cout << "Calling MST()" << myGraph.MST("MSTtest");
 
-		cout << "Calling stepAway" << endl; 
+		//cout << "Calling stepAway" << endl; 
 
 		myGraph.stepAway(4,-1,"stepAwaytest"); 
 	}

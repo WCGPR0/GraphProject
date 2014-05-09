@@ -3,26 +3,32 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <queue>
+#include <stack>
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
-#include <stack>
 //This class will be used to create a graph library.
 enum Type {DIRECTED,UNDIRECTED};
 
 class Graph{
 	private:
 		struct Edge{
+			int vf;
 			int vt;
 			double weight;
+			bool operator <(const Edge& rhs){
+         		return weight<rhs.weight;
+      		}
 		};
+		//Put your private data members here
 		Type type;
-		std::vector<std::list<Edge> > edgeList;
+		std::vector<std::list<Edge>> edgeList;
 		std::vector<bool> visited;
 		int vertices;
 		int edges;
-		//Put your private data members here
 		//Put your private methods here
+		void resetVisit();
 	public:
 		//Construct an empty graph of the specified type
 		Graph(Type t);
@@ -50,7 +56,7 @@ class Graph{
 		// from one node to the other
 		int closeness(int v1, int v2);
 		//* Partition - determine if you can partition the graph
-		bool partitionable();
+		bool partitionable();			
 		//* MST - print the minimum spanning tree of the graph
 		//to a file with the passed name
 		bool MST(std::string file);
